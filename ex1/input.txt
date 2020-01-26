@@ -1,0 +1,7 @@
+#include <stdio.h>
+main()
+{
+int a=10;
+float b=20.2;
+printf("%d %f",a,b);
+}
