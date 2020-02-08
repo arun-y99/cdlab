@@ -1,0 +1,329 @@
+State 1 conflicts: 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: program statement '\n'
+    2        | /* empty */
+
+    3 statement: expr
+    4          | VARIABLE '=' expr
+    5          | /* empty */
+
+    6 expr: INTEGER
+    7     | expr '+' expr
+    8     | expr '-' expr
+    9     | expr '*' expr
+   10     | expr '/' expr
+   11     | expr '^' expr
+   12     | '(' expr ')'
+   13     | /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'\n' (10) 1
+'(' (40) 12
+')' (41) 12
+'*' (42) 9
+'+' (43) 7
+'-' (45) 8
+'/' (47) 10
+'=' (61) 4
+'^' (94) 11
+error (256)
+INTEGER (258) 6
+VARIABLE (259) 4
+
+
+Nonterminals, with rules where they appear
+
+$accept (14)
+    on left: 0
+program (15)
+    on left: 1 2, on right: 0 1
+statement (16)
+    on left: 3 4 5, on right: 1
+expr (17)
+    on left: 6 7 8 9 10 11 12 13, on right: 3 4 7 8 9 10 11 12
+
+
+state 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 2 (program)
+
+    program  go to state 1
+
+
+state 1
+
+    0 $accept: program . $end
+    1 program: program . statement '\n'
+
+    $end      shift, and go to state 2
+    INTEGER   shift, and go to state 3
+    VARIABLE  shift, and go to state 4
+    '('       shift, and go to state 5
+
+    '\n'      reduce using rule 5 (statement)
+    '\n'      [reduce using rule 13 (expr)]
+    $default  reduce using rule 13 (expr)
+
+    statement  go to state 6
+    expr       go to state 7
+
+
+state 2
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 3
+
+    6 expr: INTEGER .
+
+    $default  reduce using rule 6 (expr)
+
+
+state 4
+
+    4 statement: VARIABLE . '=' expr
+
+    '='  shift, and go to state 8
+
+
+state 5
+
+   12 expr: '(' . expr ')'
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 9
+
+
+state 6
+
+    1 program: program statement . '\n'
+
+    '\n'  shift, and go to state 10
+
+
+state 7
+
+    3 statement: expr .
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+
+    '+'  shift, and go to state 11
+    '-'  shift, and go to state 12
+    '*'  shift, and go to state 13
+    '/'  shift, and go to state 14
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 3 (statement)
+
+
+state 8
+
+    4 statement: VARIABLE '=' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 16
+
+
+state 9
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+   12     | '(' expr . ')'
+
+    '+'  shift, and go to state 11
+    '-'  shift, and go to state 12
+    '*'  shift, and go to state 13
+    '/'  shift, and go to state 14
+    '^'  shift, and go to state 15
+    ')'  shift, and go to state 17
+
+
+state 10
+
+    1 program: program statement '\n' .
+
+    $default  reduce using rule 1 (program)
+
+
+state 11
+
+    7 expr: expr '+' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 18
+
+
+state 12
+
+    8 expr: expr '-' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 19
+
+
+state 13
+
+    9 expr: expr '*' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 20
+
+
+state 14
+
+   10 expr: expr '/' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 21
+
+
+state 15
+
+   11 expr: expr '^' . expr
+
+    INTEGER  shift, and go to state 3
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 13 (expr)
+
+    expr  go to state 22
+
+
+state 16
+
+    4 statement: VARIABLE '=' expr .
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+
+    '+'  shift, and go to state 11
+    '-'  shift, and go to state 12
+    '*'  shift, and go to state 13
+    '/'  shift, and go to state 14
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 4 (statement)
+
+
+state 17
+
+   12 expr: '(' expr ')' .
+
+    $default  reduce using rule 12 (expr)
+
+
+state 18
+
+    7 expr: expr . '+' expr
+    7     | expr '+' expr .
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+
+    '*'  shift, and go to state 13
+    '/'  shift, and go to state 14
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 7 (expr)
+
+
+state 19
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    8     | expr '-' expr .
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+
+    '*'  shift, and go to state 13
+    '/'  shift, and go to state 14
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 8 (expr)
+
+
+state 20
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+    9     | expr '*' expr .
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 9 (expr)
+
+
+state 21
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   10     | expr '/' expr .
+   11     | expr . '^' expr
+
+    '^'  shift, and go to state 15
+
+    $default  reduce using rule 10 (expr)
+
+
+state 22
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '^' expr
+   11     | expr '^' expr .
+
+    $default  reduce using rule 11 (expr)
